@@ -1,0 +1,10 @@
+<script type="text/javascript"
+        src="http://namba:9292/faye.js">
+</script>
+
+<script type="text/javascript">
+  var client = new Faye.Client('http://namba:9292/faye');
+  var subscription = client.subscribe('/foo', function(message) {
+    alert(message);
+  });
+</script>hello!

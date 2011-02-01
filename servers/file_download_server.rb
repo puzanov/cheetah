@@ -1,5 +1,6 @@
 require 'socket'
 require 'lib/speed_counter'
+require 'lib/publisher'
 FILENAME_TO_DOWNLOAD = '/tmp/hello'
 FILESIZE = File.size FILENAME_TO_DOWNLOAD
 
@@ -9,7 +10,7 @@ class File
   end
 end
 
-server = TCPServer.new('0.0.0.0', 4567)
+server = TCPServer.new('0.0.0.0', 5678)
 loop do
   socket = server.accept
   while socket.gets.chop.length > 0
@@ -33,6 +34,7 @@ loop do
   seconds_spent = @end_date - @start_date
   
   puts SpeedCounter.new.calculate_speed FILESIZE, seconds_spent
+  Publisher.new.publish
 end
 
 
