@@ -1,2 +1,2 @@
-rackup faye.ru -s thin -E production &
-ruby server.rb
+rackup servers/faye.ru -s thin -E production &
+ruby servers/file_download_server.rb
