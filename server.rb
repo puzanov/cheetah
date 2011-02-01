@@ -1,4 +1,6 @@
 require 'socket'
+FILENAME_TO_DOWNLOAD = '/tmp/hello'
+
 
 class File
   def each_chunk(chunk_size=1024)
@@ -11,17 +13,24 @@ loop do
   socket = server.accept
   while socket.gets.chop.length > 0
   end
-  puts Time.new.inspect
+  
+  @start_date = Time.new.to_i
+  
   socket.puts "HTTP/1.1 200 OK"
   socket.puts "Content-type: application/octet-stream"
   socket.puts ""
   
-  File::open("/tmp/hello", "rb") do |f|
+  File::open(FILENAME_TO_DOWNLOAD, "rb") do |f|
     f.each_chunk() {|chunk| socket.puts chunk }
   end
 
   socket.close
-  puts Time.new.inspect
+  
+  @end_date = Time.new.to_i
+
+  seconds_spent = @end_date - @start_date
+
+  puts File.new(FILENAME_TO_DOWNLOAD).size / seconds_spent * 1024
 end
 
 
