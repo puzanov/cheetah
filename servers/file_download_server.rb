@@ -33,8 +33,8 @@ loop do
 
   seconds_spent = @end_date - @start_date
   
-  puts SpeedCounter.new.calculate_speed FILESIZE, seconds_spent
-  Publisher.new.publish
+  speed = SpeedCounter.new.calculate_speed FILESIZE, seconds_spent
+  Publisher.new.publish speed
 end
 
 

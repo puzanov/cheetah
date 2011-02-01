@@ -1,10 +1,19 @@
-<script type="text/javascript"
-        src="http://namba:9292/faye.js">
-</script>
+<html>
+<head>
+  <script type="text/javascript"
+          src="http://namba:9292/faye.js">
+  </script>
 
-<script type="text/javascript">
-  var client = new Faye.Client('http://namba:9292/faye');
-  var subscription = client.subscribe('/foo', function(message) {
-    alert(message);
-  });
-</script>hello!
+  <script type="text/javascript">
+    var client = new Faye.Client('http://namba:9292/faye');
+    var subscription = client.subscribe('/foo', function(message) {
+      document.getElementById('speed').innerHTML = message.speed;
+    });
+  </script>
+</head>
+<body>
+  <a href="http://192.168.8.119:5678">download file</a>
+  <br>
+  speed: <span id="speed"></span> Kb/sec
+</body>
+</html>
