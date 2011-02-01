@@ -1,6 +1,7 @@
 require 'socket'
+require 'lib/speed_counter'
 FILENAME_TO_DOWNLOAD = '/tmp/hello'
-
+FILESIZE = File.size FILENAME_TO_DOWNLOAD
 
 class File
   def each_chunk(chunk_size=1024)
@@ -18,6 +19,7 @@ loop do
   
   socket.puts "HTTP/1.1 200 OK"
   socket.puts "Content-type: application/octet-stream"
+  socket.puts "Content-length: " + FILESIZE.to_s
   socket.puts ""
   
   File::open(FILENAME_TO_DOWNLOAD, "rb") do |f|
@@ -29,8 +31,8 @@ loop do
   @end_date = Time.new.to_i
 
   seconds_spent = @end_date - @start_date
-
-  puts File.new(FILENAME_TO_DOWNLOAD).size / seconds_spent * 1024
+  
+  puts SpeedCounter.new.calculate_speed FILESIZE, seconds_spent
 end
 
 
