@@ -1,6 +1,7 @@
 require 'socket'
 require 'lib/speed_counter'
 require 'lib/publisher'
+require 'lib/request_parser'
 FILENAME_TO_DOWNLOAD = '/tmp/hello'
 FILESIZE = File.size FILENAME_TO_DOWNLOAD
 
@@ -13,10 +14,10 @@ end
 server = TCPServer.new('0.0.0.0', 5678)
 loop do
   socket = server.accept
-  while socket.gets.chop.length > 0
-  end
   Thread.new do
     begin
+      request = socket.gets
+      uri = RequestParser.new.get_uri request
       @start_date = Time.new.to_i
       socket.puts "HTTP/1.1 200 OK"
       socket.puts "Content-type: application/octet-stream"
@@ -35,7 +36,7 @@ loop do
       message_to_publish = SpeedCounter.new.calculate_speed FILESIZE, seconds_spent
       message_to_publish = message_to_publish.to_s + " кб в секунду"
     ensure
-      Publisher.new.publish message_to_publish  
+      Publisher.new.publish message_to_publish, uri 
     end
   end
 end
