@@ -2,7 +2,8 @@
 <head>
   <script type="text/javascript" src="<%= @config["faye_remote_url_js"] %>"></script>
   <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.4.4/jquery.min.js"></script>
-  
+  <script type="text/javascript" src="<%= @config["frontend_url"] %>swfobject.js"></script>
+
   <script type="text/javascript">
     var client = new Faye.Client('<%= @config["faye_remote_url"] %>faye');
     var subscription = client.subscribe('/foo/<%= @token %>', function(message) {
@@ -15,9 +16,21 @@
 
     $(document).ready(function(){
       $("#download").click(function(){
+        width  = 1
+        height = 1 
+        var s1 = new SWFObject('<%= @config["frontend_url"] %>player.swf', 'mpl', width, height, '9')
+        s1.addParam('allowfullscreen', 'false')
+        s1.addParam('allowscriptaccess', 'always')
+        s1.addParam('allownetworking', 'all')
+        s1.addVariable('file', "<%= @config["file_download_url"] %><%= @token %>")
+        s1.addVariable('plugins', 'viral-2')
+        s1.addVariable('viral.allowmenu','false')
+        s1.write('flash-player')
+        
         $(this).fadeOut(function(){
           $("#status").fadeIn();
         });
+        return false;
       });
     });
   </script>
@@ -31,8 +44,13 @@
       <h2>Проверка скорости Интернета</h2>
     </div>
 
-  <a id="download" href="<%= @config["file_download_url"] %><%= @token %>" target="_blank">Начать проверку!</a>
-  <div id="status" style="display:none;">Идет скачивание файла. Не прерывайте загрузку</div>
+    <div style="padding-top:30px;padding-bottom:30px;">
+      <div id="flash-player">
+      </div>
+    </div>
+
+  <a id="download" href="#" target="_blank">Начать проверку!</a>
+  <div id="status" style="display:none;">Идет измерение скорости интернета! Ничего не делайте!</div>
   <br>
 
   <div style="display:none;background-color:#8FE866;padding:5px;width:300px;">

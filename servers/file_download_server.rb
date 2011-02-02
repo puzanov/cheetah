@@ -16,22 +16,25 @@ end
 server = TCPServer.new('0.0.0.0', 5678)
 loop do
   socket = server.accept
-#  Thread.new do
+  puts socket.inspect
+  Thread.new do
     begin
-      request = socket.gets
+      request = socket.gets.chop
       puts request
       uri = RequestParser.new.get_uri request
+      while socket.gets.chop.length > 0 do
+      end
       @start_date = Time.new.to_i
       socket.puts "HTTP/1.0 200 OK"
       socket.puts "Content-type: application/octet-stream"
       socket.puts "Content-Disposition: attachment; filename=\"zero.dat\"";
       socket.puts "Content-length: " + FILESIZE.to_s
-      socket.puts "Connection: Keep-Alive"
+      socket.puts "Pragma: no-cache"
+      socket.puts "Expires: 0"
       socket.puts ""
       File::open(FILENAME_TO_DOWNLOAD, "rb") do |f|
         f.each_chunk() {|chunk| socket.puts chunk }
       end
-      socket.close
     rescue
       puts $!
       message_to_publish = "Закачка файла прервалась"  
@@ -50,8 +53,9 @@ loop do
       publisher = Publisher.new
       publisher.faye_url = CONFIG['faye_local_url']
       publisher.publish message_to_publish, uri 
+      socket.close
     end
-#  end
+  end
 end
 
 
