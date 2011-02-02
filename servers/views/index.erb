@@ -23,15 +23,27 @@
   </script>
 </head>
 <body>
-  <a id="download" href="http://192.168.8.119:5678/<%= @token %>" target="_blank">download file</a>
+  
+  <center>
+  <div style="width:800px; margin:auto 0;">
+
+    <div>
+      <h2>Проверка скорости Интернета</h2>
+    </div>
+
+  <a id="download" href="http://192.168.8.119:5678/<%= @token %>" target="_blank">Начать проверку!</a>
   <div id="status" style="display:none;">Идет скачивание файла. Не прерывайте загрузку</div>
   <br>
 
-  <div style="display:none;background-color:#8FE866;padding:5px;">
-    speed: <span id="speed"></span>
+  <div style="display:none;background-color:#8FE866;padding:5px;width:300px;">
+    Ваша скорость: <span id="speed"></span>
   </div>
-  <div style="display:none;" id="tryagain">
+  <div style="display:none;margin-top:30px;" id="tryagain">
     <a href="http://192.168.8.119:4567/">Попробовать еще раз</a>
   </div>
+
+  </div>
+  </center>
+
 </body>
 </html>
