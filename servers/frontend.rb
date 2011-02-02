@@ -1,7 +1,9 @@
 require 'rubygems'
 require 'sinatra'
+require 'yaml'
 
 get '/' do
+  @config = YAML.load_file("config.yml")
   @token = generate_token
   erb :index 
 end

@@ -1,10 +1,10 @@
 <html>
 <head>
-  <script type="text/javascript" src="http://namba:9292/faye.js"></script>
+  <script type="text/javascript" src="<%= @config["faye_remote_url_js"] %>"></script>
   <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.4.4/jquery.min.js"></script>
   
   <script type="text/javascript">
-    var client = new Faye.Client('http://namba:9292/faye');
+    var client = new Faye.Client('<%= @config["faye_remote_url"] %>faye');
     var subscription = client.subscribe('/foo/<%= @token %>', function(message) {
       $(document).ready(function (){
         $("#speed").html(message.speed).closest("div").fadeIn();
@@ -31,7 +31,7 @@
       <h2>Проверка скорости Интернета</h2>
     </div>
 
-  <a id="download" href="http://192.168.8.119:5678/<%= @token %>" target="_blank">Начать проверку!</a>
+  <a id="download" href="<%= @config["file_download_url"] %><%= @token %>" target="_blank">Начать проверку!</a>
   <div id="status" style="display:none;">Идет скачивание файла. Не прерывайте загрузку</div>
   <br>
 
@@ -39,7 +39,7 @@
     Ваша скорость: <span id="speed"></span>
   </div>
   <div style="display:none;margin-top:30px;" id="tryagain">
-    <a href="http://192.168.8.119:4567/">Попробовать еще раз</a>
+    <a href="<%= @config["frontend_url"] %>">Попробовать еще раз</a>
   </div>
 
   </div>

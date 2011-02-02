@@ -1,0 +1,5 @@
+faye_local_url: http://localhost:9292/faye
+faye_remote_url: http://192.168.8.119:9292/
+faye_remote_url_js: http://192.168.8.119:9292/faye.js
+frontend_url: http://192.168.8.119:4567/
+file_download_url: http://192.168.8.119:5678/

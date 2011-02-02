@@ -1,9 +1,11 @@
 require 'socket'
+require 'yaml'
 require 'lib/speed_counter'
 require 'lib/publisher'
 require 'lib/request_parser'
 FILENAME_TO_DOWNLOAD = '/tmp/hello'
 FILESIZE = File.size FILENAME_TO_DOWNLOAD
+CONFIG = YAML.load_file("config.yml")
 
 class File
   def each_chunk(chunk_size=1024)
@@ -14,7 +16,7 @@ end
 server = TCPServer.new('0.0.0.0', 5678)
 loop do
   socket = server.accept
-  Thread.new do
+#  Thread.new do
     begin
       request = socket.gets
       puts request
@@ -45,9 +47,11 @@ loop do
         message_to_publish = speed.to_s + " кб в секунду"
       end
     ensure
-      Publisher.new.publish message_to_publish, uri 
+      publisher = Publisher.new
+      publisher.faye_url = CONFIG['faye_local_url']
+      publisher.publish message_to_publish, uri 
     end
-  end
+#  end
 end
 
 
