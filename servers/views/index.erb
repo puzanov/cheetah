@@ -1,19 +1,37 @@
 <html>
 <head>
-  <script type="text/javascript"
-          src="http://namba:9292/faye.js">
-  </script>
-
+  <script type="text/javascript" src="http://namba:9292/faye.js"></script>
+  <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.4.4/jquery.min.js"></script>
+  
   <script type="text/javascript">
     var client = new Faye.Client('http://namba:9292/faye');
     var subscription = client.subscribe('/foo/<%= @token %>', function(message) {
-      document.getElementById('speed').innerHTML = message.speed;
+      $(document).ready(function (){
+        $("#speed").html(message.speed).closest("div").fadeIn();
+        $("#tryagain").show();
+        $("#status").hide();
+      });
+    });
+
+    $(document).ready(function(){
+      $("#download").click(function(){
+        $(this).fadeOut(function(){
+          $("#status").fadeIn();
+        });
+      });
     });
   </script>
 </head>
 <body>
-  <a href="http://192.168.8.119:5678/<%= @token %>" target="_blank">download file</a>
+  <a id="download" href="http://192.168.8.119:5678/<%= @token %>" target="_blank">download file</a>
+  <div id="status" style="display:none;">Идет скачивание файла. Не прерывайте загрузку</div>
   <br>
-  speed: <span id="speed"></span> 
+
+  <div style="display:none;background-color:#8FE866;padding:5px;">
+    speed: <span id="speed"></span>
+  </div>
+  <div style="display:none;" id="tryagain">
+    <a href="http://192.168.8.119:4567/">Попробовать еще раз</a>
+  </div>
 </body>
 </html>
