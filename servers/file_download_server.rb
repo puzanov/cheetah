@@ -24,7 +24,7 @@ loop do
       uri = RequestParser.new.get_uri request
       while socket.gets.chop.length > 0 do
       end
-      @start_date = Time.new.to_i
+      start_date = Time.new.to_i
       socket.puts "HTTP/1.0 200 OK"
       socket.puts "Content-type: application/octet-stream"
       socket.puts "Content-Disposition: attachment; filename=\"zero.dat\"";
@@ -39,9 +39,9 @@ loop do
       puts $!
       message_to_publish = "Закачка файла прервалась"  
     else
-      @end_date = Time.new.to_i
-      seconds_spent = @end_date - @start_date
-      puts "start #{@start_date} end #{@end_date}"
+      end_date = Time.new.to_i
+      seconds_spent = end_date - start_date
+      puts "start #{start_date} end #{end_date}"
       speed = SpeedCounter.new.calculate_speed FILESIZE, seconds_spent
       if speed > 1024
         speed = speed / 1024
