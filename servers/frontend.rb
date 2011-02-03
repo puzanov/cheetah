@@ -9,7 +9,7 @@ get '/' do
   @token = generate_token
   discover = ProviderDiscover.new
   discover.update_range_database
-  @provider = discover
+  @provider = discover @env['REMOTE_ADDR']
   erb :index 
 end
 
