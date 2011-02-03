@@ -8,7 +8,8 @@ get '/' do
   @token = generate_token
   discover = ProviderDiscover.new
   discover.update_range_database
-  user_ip = request.env['REMOTE_ADDR']
+  user_ip = request.env['HTTP_X_REAL_IP']
+  user_ip = request.env['REMOTE_ADDR'] unless user_ip
   @provider = discover.guess user_ip
   erb :index 
 end
