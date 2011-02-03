@@ -18,6 +18,6 @@ class ProviderDiscover
         return provider
       end
     end
-    return false
+    return ""
   end
 end

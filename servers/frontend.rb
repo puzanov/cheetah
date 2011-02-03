@@ -3,13 +3,13 @@ require 'sinatra'
 require 'yaml'
 require 'lib/provider_discover'
 
-
 get '/' do
   @config = YAML.load_file("config.yml")
   @token = generate_token
   discover = ProviderDiscover.new
   discover.update_range_database
-  @provider = discover @env['REMOTE_ADDR']
+  user_ip = request.env['REMOTE_ADDR']
+  @provider = discover.guess user_ip
   erb :index 
 end
 
