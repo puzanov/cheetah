@@ -1,10 +1,15 @@
 require 'rubygems'
 require 'sinatra'
 require 'yaml'
+require 'lib/provider_discover'
+
 
 get '/' do
   @config = YAML.load_file("config.yml")
   @token = generate_token
+  discover = ProviderDiscover.new
+  discover.update_range_database
+  @provider = discover
   erb :index 
 end
 
