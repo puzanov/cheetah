@@ -61,6 +61,30 @@
     <a href="<%= @config["frontend_url"] %>">Попробовать еще раз</a>
   </div>
 
+  <div style="padding-top:20px;">
+    <h3>Статистика</h3>
+    <table cellspacing=5>
+      <tr>
+        <td>%username%</td>
+        <td style="padding-left:20px; padding-right:20px;">Провайдер</td>
+        <td>Скорость</td>
+      </tr>
+    <% @stats.each do |stat| %>
+        <tr>
+          <td><%= stat.name %></td>
+          <td><%= stat.provider %></td>
+          <td>
+            <% if !stat.speed.nil? && stat.speed > 1024 %>
+              <%= stat.speed/1024%> мегабайт в секунду
+            <% else %>
+              <%= stat.speed %> килобайт в секунду
+            <% end %>
+          </td>
+        </tr>
+    <% end %>
+    </table>
+  </div>
+
   </div>
   </center>
 

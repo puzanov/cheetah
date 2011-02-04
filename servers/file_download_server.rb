@@ -4,6 +4,8 @@ require 'lib/speed_counter'
 require 'lib/publisher'
 require 'lib/request_parser'
 require 'lib/stat_manager'
+require 'lib/provider_discover'
+
 FILENAME_TO_DOWNLOAD = '/tmp/hello'
 FILESIZE = File.size FILENAME_TO_DOWNLOAD
 CONFIG = YAML.load_file("config.yml")
@@ -13,6 +15,9 @@ class File
     yield read(chunk_size) until eof?
   end
 end
+
+@discover = ProviderDiscover.new
+@discover.update_range_database
 
 server = TCPServer.new('0.0.0.0', 5678)
 loop do
@@ -60,10 +65,11 @@ loop do
       publisher = Publisher.new
       publisher.faye_url = CONFIG['faye_local_url']
       publisher.publish message_to_publish, uri 
-      puts socket.addr[3]
       stat = Stat.new
       stat.name = "anonim"
       stat.speed = speed_to_stat
+      stat.provider = @discover.guess socket.addr[3]
+      stat.ctime = Time.new.to_i
       stat.save
       socket.close
     end

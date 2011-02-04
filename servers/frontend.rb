@@ -2,6 +2,7 @@ require 'rubygems'
 require 'sinatra'
 require 'yaml'
 require 'lib/provider_discover'
+require 'lib/stat_manager'
 
 get '/' do
   @config = YAML.load_file("config.yml")
@@ -11,6 +12,7 @@ get '/' do
   user_ip = request.env['HTTP_X_REAL_IP']
   user_ip = request.env['REMOTE_ADDR'] unless user_ip
   @provider = discover.guess user_ip
+  @stats = Stat.find :all, :order => "ctime DESC", :conditions => ["speed > 0"]
   erb :index 
 end
 
