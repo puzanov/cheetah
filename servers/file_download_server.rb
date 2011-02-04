@@ -70,14 +70,10 @@ loop do
       stat = Stat.new
       stat.name = "anonim"
       stat.speed = speed_to_stat
-      stat.provider = @discover.guess ip
+      stat.provider = @discover.guess ip.chomp
       stat.ctime = Time.new.to_i
       stat.save
       socket.close
     end
   end
-end
-
-def get_ip request_headers
-    
 end
