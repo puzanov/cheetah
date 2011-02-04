@@ -24,7 +24,7 @@ server = TCPServer.new('0.0.0.0', 5678)
 loop do
   socket = server.accept
   puts socket.inspect
-  Thread.new do
+#  Thread.new do
     begin
       request_headers = ""
       begin
@@ -66,20 +66,26 @@ loop do
       publisher = Publisher.new
       publisher.faye_url = CONFIG['faye_local_url']
       publisher.publish message_to_publish, uri 
+      
       ip = RequestParser.new.get_ip request_headers
       ip = socket.addr[3] unless ip
       
       session_id = RequestParser.new.get_session_id request_headers
-      namba_login = NambaLogin.get NambaLogin.get_kg_namba_url session_id
       
+      if session_id.nil?
+        namba_login = "anonim"
+      else
+        namba_login = NambaLogin.get NambaLogin.get_kg_namba_url session_id
+      end
+
       stat = Stat.new
       stat.name = namba_login.chomp
-      stat.name = "anonim" unless namba_login
       stat.speed = speed_to_stat
       stat.provider = @discover.guess ip.chomp
       stat.ctime = Time.new.to_i
       stat.save
+      
       socket.close
     end
-  end
+  #end
 end
