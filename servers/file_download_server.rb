@@ -3,6 +3,7 @@ require 'yaml'
 require 'lib/speed_counter'
 require 'lib/publisher'
 require 'lib/request_parser'
+require 'lib/stat_manager'
 FILENAME_TO_DOWNLOAD = '/tmp/hello'
 FILESIZE = File.size FILENAME_TO_DOWNLOAD
 CONFIG = YAML.load_file("config.yml")
@@ -19,11 +20,16 @@ loop do
   puts socket.inspect
   Thread.new do
     begin
-      request = socket.gets.chop
-      puts request
-      uri = RequestParser.new.get_uri request
-      while socket.gets.chop.length > 0 do
-      end
+      request_headers = ""
+      begin
+        request_line = socket.gets
+        request_headers << request_line
+      end while request_line.chop.length > 0
+
+      uri = RequestParser.new.get_uri request_headers
+      puts uri
+      puts request_headers
+
       start_date = Time.new.to_i
       socket.puts "HTTP/1.0 200 OK"
       socket.puts "Content-type: application/octet-stream"
@@ -43,19 +49,27 @@ loop do
       seconds_spent = end_date - start_date
       puts "start #{start_date} end #{end_date}"
       speed = SpeedCounter.new.calculate_speed FILESIZE, seconds_spent
+      speed_to_stat = speed
       if speed > 1024
         speed = speed / 1024
-        message_to_publish = speed.to_s + " мегабайт в секунду"
+        message_to_publish = speed.to_s + " МБайт в секунду"
       else
-        message_to_publish = speed.to_s + " кб в секунду"
+        message_to_publish = speed.to_s + " КБайт в секунду"
       end
     ensure
       publisher = Publisher.new
       publisher.faye_url = CONFIG['faye_local_url']
       publisher.publish message_to_publish, uri 
+      puts socket.addr[3]
+      stat = Stat.new
+      stat.name = "anonim"
+      stat.speed = speed_to_stat
+      stat.save
       socket.close
     end
   end
 end
 
-
+def get_ip request_headers
+    
+end
