@@ -75,7 +75,7 @@ loop do
       if session_id.nil?
         namba_login = "anonim"
       else
-        namba_login = NambaLogin.get NambaLogin.get_kg_namba_url session_id
+        namba_login = NambaLoginKG.get_login session_id
       end
 
       stat = Stat.new
