@@ -1,5 +1,5 @@
 require 'test/unit'
-require '../lib/provider_discover'
+require 'lib/provider_discover'
 
 class ProviderDiscoverTest < Test::Unit::TestCase
   attr_accessor :discover

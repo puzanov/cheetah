@@ -1,6 +1,6 @@
 require 'test/unit'
-require '../lib/speed_counter'
-require '../lib/request_parser'
+require 'lib/speed_counter'
+require 'lib/request_parser'
 
 class RequestParserTest < Test::Unit::TestCase
   def test_get_uri

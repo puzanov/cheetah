@@ -1,5 +1,5 @@
 require 'test/unit'
-require '../lib/speed_counter'
+require 'lib/speed_counter'
 
 class SpeedCounterTest < Test::Unit::TestCase
   def test_calculate_speed
