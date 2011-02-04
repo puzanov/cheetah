@@ -73,8 +73,8 @@ loop do
       namba_login = NambaLogin.get NambaLogin.get_kg_namba_url session_id
       
       stat = Stat.new
-      stat.name = login
-      stat.name = "anonim" unless login
+      stat.name = namba_login.chomp
+      stat.name = "anonim" unless namba_login
       stat.speed = speed_to_stat
       stat.provider = @discover.guess ip.chomp
       stat.ctime = Time.new.to_i

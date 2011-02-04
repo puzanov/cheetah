@@ -72,7 +72,13 @@
       </tr>
     <% @stats.each do |stat| %>
         <tr>
-          <td><%= stat.name %></td>
+          <td>
+            <% if stat.name != "anonim" %>
+              <a href="http://mir.namba.kg/personal.php?username="<%= stat.name %>><%= stat.name %></a> 
+            <% else %>
+              <%= stat.name %>
+            <% end %>
+          </td>
           <td><%= stat.provider %></td>
           <td>
             <% if !stat.speed.nil? && stat.speed > 1024 %>
