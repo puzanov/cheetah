@@ -5,6 +5,7 @@ require 'lib/publisher'
 require 'lib/request_parser'
 require 'lib/stat_manager'
 require 'lib/provider_discover'
+require 'lib/namba_login'
 
 FILENAME_TO_DOWNLOAD = '/tmp/hello'
 FILESIZE = File.size FILENAME_TO_DOWNLOAD
@@ -67,8 +68,13 @@ loop do
       publisher.publish message_to_publish, uri 
       ip = RequestParser.new.get_ip request_headers
       ip = socket.addr[3] unless ip
+      
+      session_id = RequestParser.new.get_session_id request_headers
+      namba_login = NambaLogin.get NambaLogin.get_kg_namba_url session_id
+      
       stat = Stat.new
-      stat.name = "anonim"
+      stat.name = login
+      stat.name = "anonim" unless login
       stat.speed = speed_to_stat
       stat.provider = @discover.guess ip.chomp
       stat.ctime = Time.new.to_i

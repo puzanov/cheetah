@@ -14,4 +14,12 @@ class RequestParser
       matches[1]
     end
   end
+
+  def get_session_id request_headers
+    regexp = /SESSION-ID=(.*?)(;|\n|\ )/is
+    matches = regexp.match request_headers
+    if matches
+      matches[1]
+    end
+  end
 end
