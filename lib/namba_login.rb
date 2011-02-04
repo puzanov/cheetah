@@ -11,7 +11,7 @@ class NambaLogin
   end
   
   def NambaLogin.get_content(requested_url)
-    url = URI.parse(requested_url)
+    url = URI.parse(requested_url.chomp)
     full_path = "#{url.path}?#{url.query}"
     the_request = Net::HTTP::Get.new(full_path)
 
