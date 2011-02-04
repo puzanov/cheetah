@@ -76,6 +76,7 @@ loop do
         namba_login = "anonim"
       else
         namba_login = NambaLoginKG.get_login session_id
+        namba_login = "anonim" if namba_login = ""
       end
 
       stat = Stat.new
