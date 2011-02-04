@@ -24,7 +24,7 @@ server = TCPServer.new('0.0.0.0', 5678)
 loop do
   socket = server.accept
   puts socket.inspect
-#  Thread.new do
+  Thread.new do
     begin
       request_headers = ""
       begin
@@ -87,5 +87,5 @@ loop do
       
       socket.close
     end
-  #end
+  end
 end
