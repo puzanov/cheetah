@@ -8,7 +8,7 @@ class RequestParser
   end
 
   def get_ip request_headers
-    regexp = / \/(.*?) http/is
+    regexp = /X-Real-IP: (.*?)\n/is
     matches = regexp.match request_headers
     if matches
       matches[1]
