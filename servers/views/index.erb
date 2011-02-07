@@ -23,8 +23,6 @@
         s1.addParam('allowscriptaccess', 'always')
         s1.addParam('allownetworking', 'all')
         s1.addVariable('file', "<%= @config["file_download_url"] %><%= @token %>")
-        //s1.addVariable('plugins', 'viral-2')
-        //s1.addVariable('viral.allowmenu','false')
         s1.write('flash-player')
         
         $(this).fadeOut(function(){
@@ -88,7 +86,7 @@
           <td><%= stat.provider %></td>
           <td>
             <% if !stat.speed.nil? && stat.speed > 1024 %>
-              <%= stat.speed/1024%> мегабайт в секунду
+              <%= sprintf('%.2f', (stat.speed.to_f/1024))%> мегабайт в секунду
             <% else %>
               <%= stat.speed %> килобайт в секунду
             <% end %>
