@@ -23,8 +23,8 @@
         s1.addParam('allowscriptaccess', 'always')
         s1.addParam('allownetworking', 'all')
         s1.addVariable('file', "<%= @config["file_download_url"] %><%= @token %>")
-        s1.addVariable('plugins', 'viral-2')
-        s1.addVariable('viral.allowmenu','false')
+        //s1.addVariable('plugins', 'viral-2')
+        //s1.addVariable('viral.allowmenu','false')
         s1.write('flash-player')
         
         $(this).fadeOut(function(){
