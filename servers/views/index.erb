@@ -1,8 +1,8 @@
 <html>
 <head>
   <script type="text/javascript" src="<%= @config["faye_remote_url_js"] %>"></script>
-  <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.4.4/jquery.min.js"></script>
-  <script type="text/javascript" src="<%= @config["frontend_url"] %>swfobject.js"></script>
+  <script type="text/javascript" src="/jquery.min.js"></script>
+  <script type="text/javascript" src="/swfobject.js"></script>
 
   <script type="text/javascript">
     var client = new Faye.Client('<%= @config["faye_remote_url"] %>faye');

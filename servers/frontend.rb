@@ -16,6 +16,8 @@ get '/' do
   erb :index 
 end
 
+
+
 get '/:file' do |file|
   puts file
 end
