@@ -1,5 +1,12 @@
+#!/bin/sh
 killall ruby
-killall rackup
-nohup rackup servers/faye.ru -s thin -E production &
-nohup ruby servers/file_download_server.rb &
-nohup ruby servers/frontend.rb &
+
+if [ -z "$1" ]; then
+  nohup ruby servers/file_download_server.rb &
+  nohup ruby servers/frontend.rb &
+else
+  ruby servers/file_download_server.rb &
+  ruby servers/frontend.rb &
+fi
+
+

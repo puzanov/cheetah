@@ -1,8 +1,12 @@
 require 'rubygems'
+require 'faye'
 require 'sinatra'
 require 'yaml'
 require 'lib/provider_discover'
 require 'lib/stat_manager'
+
+use Faye::RackAdapter, :mount      => '/faye',
+                       :timeout    => 20
 
 get '/' do
   @config = YAML.load_file("config.yml")
@@ -15,8 +19,6 @@ get '/' do
   @stats = Stat.find :all, :order => "ctime DESC", :conditions => ["speed > 0"]
   erb :index 
 end
-
-
 
 get '/:file' do |file|
   puts file
