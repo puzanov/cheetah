@@ -35,24 +35,30 @@
     });
   </script>
   <title>Проверка скорости доступа до дата-центра PROHOST</title>
+  <style>
+    body {
+      background-image:url("/pattern_157.gif");
+      font-family: Georgia;
+    }
+    
+  </style>
 </head>
 <body>
   
   <center>
-  <div style="width:800px; margin:auto 0;">
+  <div style="width:800px; margin:auto 0; background-color:white; padding-top:20px; padding-bottom:20px;">
 
-    <div>
+    <div style="margin-bottom:30px;">
       <h2>Проверка скорости доступа до дата-центра <a href="http://prohost.kg/">PROHOST</a></h2>
+      <small>В этом дата-центре размещены проекты <a href="http://namba.kg">namba.kg</a>, <a href="http://blive.kg">blive.kg</a> и т.д.</small>
       <h3>Ваш провайдер: <%= @provider %></h3>
     </div>
 
-    <div style="padding-top:30px;padding-bottom:30px;">
       <div id="flash-player">
       </div>
-    </div>
 
-  <a id="download" href="#" target="_blank">Начать проверку!</a>
-  <div id="status" style="display:none;">Идет измерение скорости! Ничего не делайте!</div>
+  <a id="download" href="#" target="_blank" style="color:red;">Начать проверку!</a>
+  <div id="status" style="display:none;background-color:#FFDA2F;padding:4px;">Идет измерение скорости! Ничего не делайте!</div>
   <br>
 
   <div style="display:none;background-color:#8FE866;padding:5px;width:300px;">
@@ -90,6 +96,15 @@
         </tr>
     <% end %>
     </table>
+  </div>
+
+  <div style="padding-top:30px;">
+    <div>Разработка <a href="mailto:puzanov@gmail.com">Олега Пузанова</a></div>
+    <div>
+      <b>Это проект с открытым исходным кодом.</b><br> 
+      <small>Если вы хотите помочь в развитии, разработать дополнительный функционал, пофиксить баги, то милости прошу 
+      на <a href="https://github.com/puzanov/cheetah">Github</a></small>
+    </div>
   </div>
 
   </div>
